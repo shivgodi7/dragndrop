@@ -1,5 +1,13 @@
 # Getting Started with Create React App
+Instruction to run the project:
+1. clone https://github.com/shivgodi7/dragndrop.git
+2. run "npm install" And then "npm start"
 
+To do:
+1. Delete subtask
+2. Date picker for due date
+3. Add new sub task for any task
+   
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
