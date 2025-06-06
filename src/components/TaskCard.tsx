@@ -100,7 +100,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
           position: 'relative'
         }}
       >
-      <div style={{width:'100%', height:'100%'}} {...listeners}>
+      <div style={{backgroundColor:'#E0FFFF', width:'100%', height:'100%'}} {...listeners}>
         <DragHandleIcon />
       </div>        
         {editing ? (
