@@ -113,6 +113,15 @@ const KanbanBoard: React.FC = () => {
   const handleDeleteSubtask = (taskId:string, stId:string) => {
     console.log("handleDeleteSubtask called in KanbanBoard");
     console.log("taskId, stId", taskId, stId);
+        setColumns((cols) =>
+      cols?.map((col) => ({
+        ...col,
+        tasks: col.tasks?.map((t) =>(
+          t.id === taskId ? { ...t,  subTasks: t.subTasks?.filter((st)=>(st.id !== stId))} : t)
+            
+        ),
+      }))
+    );
   }
 
   const handleDueDateChange = (taskId:string, newDate: string) => {
