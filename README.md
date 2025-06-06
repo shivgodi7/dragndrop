@@ -2,6 +2,7 @@
 Instruction to run the project:
 1. clone https://github.com/shivgodi7/dragndrop.git
 2. run "npm install" And then "npm start"
+3. delete localstorage data, in case slow response of UI
 
 To do:
 1. Delete subtask

@@ -5,6 +5,8 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import Tooltip from '@mui/material/Tooltip';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import DragHandleIcon from '@mui/icons-material/DragHandle';
 
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -66,6 +68,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
   }
 
   const handleEditTask = (event: React.MouseEvent<HTMLInputElement>) => {
+    event.stopPropagation();
     console.log("Inside handleEditTask", event);
     setEditing(true);
   }
@@ -97,8 +100,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
           position: 'relative'
         }}
       >
-      <div {...listeners}>
-        <AcUnitIcon />
+      <div style={{width:'100%', height:'100%'}} {...listeners}>
+        <DragHandleIcon />
       </div>        
         {editing ? (
           <TextField
