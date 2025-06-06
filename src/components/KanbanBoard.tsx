@@ -172,7 +172,7 @@ const KanbanBoard: React.FC = () => {
 
   return (
     <DndContext collisionDetection={rectIntersection} onDragEnd={handleDragEnd}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', width:'100%'}}>
         {columns?.map((column) => (
           <Column 
             key={column.id} 

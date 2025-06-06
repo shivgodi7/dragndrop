@@ -51,7 +51,7 @@ const SubTaskCard: React.FC<SubTaskCardProps> = ({ subTask, onEditSubTask, onDel
           /> 
           <Typography 
             onClick={()=>setEditing(true)} 
-            style={{wordWrap: 'break-word', width:'60%', position: 'relative', zIndex:1000, pointerEvents: 'auto', paddingLeft:'7px'}}
+            style={{textDecorationLine:`${checked ? 'line-through' : 'none'}`, wordWrap: 'break-word', width:'60%', position: 'relative', paddingLeft:'7px'}}
           > 
             {title} 
           </Typography>
