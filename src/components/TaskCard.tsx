@@ -4,6 +4,7 @@ import { Paper, Typography, TextField, IconButton, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import Tooltip from '@mui/material/Tooltip';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 
 import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -84,17 +85,22 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
   return (
     <>
       <Paper
-        onClick={() => { alert("✔️ This works on every component!");  }}
         elevation={3}
-        style={{ zIndex:1000, pointerEvents: 'auto', position: 'relative' }}
-        // style={{ pointerEvents: 'auto' }}
-        // style={style}
         {...attributes} 
-        {...listeners} 
+        // {...listeners} 
         ref={setNodeRef} 
-        sx={{ padding: 2, marginBottom: 1, zIndex:1000 }}
+        sx={{
+          padding: 2,
+          marginBottom: 1,
+          zIndex: 1000,
+          pointerEvents: 'auto',
+          position: 'relative'
+        }}
       >
-        {true ? (
+      <div {...listeners}>
+        <AcUnitIcon />
+      </div>        
+        {editing ? (
           <TextField
             style = {{borderStyle: 'none'}}
             value={title}
@@ -102,11 +108,16 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
             onBlur={handleSave}
             onKeyDown={(e) => e.key === 'Enter' && handleSave()}
             autoFocus = {true}
+            placeholder="Edit task title"
+            aria-label="Task title"
           />
         ) : (
           <Typography 
             onClick={handleEditTask} 
-            style = {{pointerEvents: 'auto', zIndex:1000}}
+            style = {{pointerEvents: 'auto', zIndex:1000, cursor: 'pointer'}}
+            onKeyDown={(e) => e.key === 'Enter' && handleEditTask}
+            tabIndex={0}
+            role="button"
           >
             {task.title}
           </Typography>
@@ -136,7 +147,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
         <Typography
           style={{backgroundColor:bgColor, padding:'5px', paddingLeft:'20px', marginTop:'10px'}}
         >
-          {`Due ${dueData?.year()} / ${dueData?.month()}`}</Typography>}
+          {dueData ? `Due ${dueData.format('YYYY/MM/DD')}` : 'No due date'}</Typography>}
       </Paper>
         <Tooltip title="Delete Task" placement="bottom">
           <IconButton 
@@ -148,9 +159,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
             <DeleteIcon  fontSize="small" />
           </IconButton>
         </Tooltip>
-        {((col === 'not-started') || (col === 'in-progress')) && <Tooltip title="Add subtask" placement="bottom">
+        {((col === 'not-started') || (col === 'in-progress')) && 
+        <Tooltip title="Add subtask" placement="bottom">
           <IconButton 
-            style = {{pointerEvents:'auto', zIndex:1000}}
+            style = {{ position:'relative', pointerEvents:'auto', zIndex:1000}}
             onClick={handleAddSubtask} 
             size="small" color="error"
           >
