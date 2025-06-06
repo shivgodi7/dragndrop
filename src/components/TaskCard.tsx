@@ -1,5 +1,5 @@
 // src/components/TaskCard.tsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Paper, Typography, TextField, IconButton, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
@@ -26,14 +26,15 @@ interface TaskCardProps {
   onDeleteT: (taskId: string)=>void;
   onDeleteSt: (taskId: string, stId: string)=>void;
   onEditSt: (taskId: string, stId: string, title: string)=>void;
+  editDueData: (taskId:string, date: string)=>void;
   // addSubtask: (taskId:string, title: string)=>void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEditSt, onDeleteSt}) => { 
+const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEditSt, onDeleteSt, editDueData}) => { 
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   let bgColor = '';
-  const [dueData, setDueDate] = useState<Dayjs | null>(dayjs('2022-04-17'));
+  const [dueData, setDueDate] = useState<Dayjs | null>(dayjs(task.dueData));
 
   switch (col) {
     case "not-started" : { bgColor = 'pink'; break;}
@@ -57,6 +58,16 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
     if (task.title !== title) {onEditT(task.id, title);}
     setEditing(false);
   };
+
+  useEffect(()=>{
+    if(dueData !== null)
+      editDueData(task.id, dueData.format('DD/MM/YYYY'));
+  }, [dueData])
+
+  // const handleDataChange = (newDate :Dayjs) => {
+  //   setDueDate(newDate);
+  //   editDueData(task.id, dueData.format('YYYY/MM/DD'));
+  // }
 
   const handleAddSubtask = () => {
     console.log("handleAddSubtask");
@@ -143,7 +154,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
               <DateField
                 label="Due Data"
                 value={dueData}
-                onChange={(newValue) => {setDueDate(newValue)}}
+                onChange={(newDate)=>{setDueDate(newDate)}}
               />
             </DemoContainer>
           </LocalizationProvider>

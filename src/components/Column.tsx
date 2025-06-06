@@ -12,9 +12,10 @@ interface ColumnProps {
   onDeleteT: (columnId: string, taskId: string)=> void;
   onEditSt: (taskId: string, stId: string, newTitle: string) => void;
   onDeleteSt: (taskId: string, stId: string)=> void;  
+  onDueDataChange : (taskId:string, newDate: string)=>void;
 }
 
-const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT, onEditSt, onDeleteSt }) => {
+const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT, onEditSt, onDeleteSt, onDueDataChange }) => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   let bgColor = '';
   switch (column.id) {
@@ -47,6 +48,9 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
     console.log("handleDeleteSt called...in Columns");
     onDeleteSt(taskId, stId);
   }
+  const handleDueDateChange = (taskId:string, newDate: string)=>{
+    onDueDataChange(taskId, newDate);
+  }
   const handleDeleteTask = (taskId:string) => {
     onDeleteT(column.id, taskId);
   }
@@ -67,7 +71,9 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
       >
         {column.tasks?.map((task) => (
           <TaskCard key={task.id} col={column.id} task={task} onEditT={handleEditTask} 
-          onDeleteT={handleDeleteTask} onEditSt={handleEditSt} onDeleteSt={handleDeleteSt}/>
+            onDeleteT={handleDeleteTask} onEditSt={handleEditSt} onDeleteSt={handleDeleteSt}
+            editDueData={handleDueDateChange}
+          />
         ))}
       </Box>
       {column.id === "not-started" && 
