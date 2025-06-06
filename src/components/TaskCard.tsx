@@ -105,7 +105,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
       </div>        
         {editing ? (
           <TextField
-            style = {{borderStyle: 'none'}}
+            style = {{wordWrap: 'break-word', width:'100%', borderStyle: 'none'}}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onBlur={handleSave}
@@ -117,7 +117,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
         ) : (
           <Typography 
             onClick={handleEditTask} 
-            style = {{pointerEvents: 'auto', zIndex:1000, cursor: 'pointer'}}
+            style = {{wordWrap: 'break-word', width:'100%', pointerEvents: 'auto', zIndex:1000, cursor: 'pointer'}}
             onKeyDown={(e) => e.key === 'Enter' && handleEditTask}
             tabIndex={0}
             role="button"

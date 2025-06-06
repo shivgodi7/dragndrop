@@ -35,7 +35,7 @@ const SubTaskCard: React.FC<SubTaskCardProps> = ({ subTask, onEditSubTask, onDel
     <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', border: '0px solid red' }}>
       {editing ? (
         <TextField
-          style={{paddingLeft:'7px'}}
+          style={{wordWrap: 'break-word', width:'100%', paddingLeft:'7px'}}
           variant="standard"
           value={title}
           onChange={(e) => setSubTask(e.target.value)}
@@ -51,7 +51,7 @@ const SubTaskCard: React.FC<SubTaskCardProps> = ({ subTask, onEditSubTask, onDel
           /> 
           <Typography 
             onClick={()=>setEditing(true)} 
-            style={{ position: 'relative', zIndex:1000, pointerEvents: 'auto', paddingLeft:'7px'}}
+            style={{wordWrap: 'break-word', width:'60%', position: 'relative', zIndex:1000, pointerEvents: 'auto', paddingLeft:'7px'}}
           > 
             {title} 
           </Typography>
