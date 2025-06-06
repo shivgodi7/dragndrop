@@ -97,7 +97,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
           marginBottom: 1,
           zIndex: 1000,
           pointerEvents: 'auto',
-          position: 'relative'
+          position: 'relative',
+          maxWidth:'100%'
         }}
       >
       <div style={{cursor:'grab',  backgroundColor:'#E0FFFF', width:'100%', height:'100%'}} {...listeners}>

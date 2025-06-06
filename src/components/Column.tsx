@@ -58,11 +58,13 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
   };
 
   return (
-    <Box ref={setNodeRef} style={style} sx={{ width: 300, margin: 2 }}>
+    <Box ref={setNodeRef} style={style} sx={{ width: '270px', margin: 2 }}>
       <Paper sx={{ padding: 2, marginBottom: 2, backgroundColor:bgColor}}>
         <Typography variant="h6">{column.title}</Typography>
       </Paper>
-      <Box>
+      <Box
+        style={{maxWidth: '100%'}}
+      >
         {column.tasks?.map((task) => (
           <TaskCard key={task.id} col={column.id} task={task} onEditT={handleEditTask} 
           onDeleteT={handleDeleteTask} onEditSt={handleEditSt} onDeleteSt={handleDeleteSt}/>
