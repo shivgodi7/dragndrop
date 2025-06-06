@@ -58,7 +58,7 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
   };
 
   return (
-    <Box ref={setNodeRef} style={style} sx={{ width: '270px', margin: 2 }}>
+    <Box ref={setNodeRef} style={style} sx={{ width: '22%', margin: 2 }}>
       <Paper sx={{ padding: 2, marginBottom: 2, backgroundColor:bgColor}}>
         <Typography variant="h6">{column.title}</Typography>
       </Paper>
