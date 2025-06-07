@@ -27,14 +27,17 @@ interface TaskCardProps {
   onDeleteSt: (taskId: string, stId: string)=>void;
   onEditSt: (taskId: string, stId: string, title: string)=>void;
   editDueData: (taskId:string, date: string)=>void;
-  // addSubtask: (taskId:string, title: string)=>void;
+  addSubtask: (taskId:string, title: string)=>void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEditSt, onDeleteSt, editDueData}) => { 
+const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEditSt, 
+  onDeleteSt, editDueData, addSubtask}) => { 
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   let bgColor = '';
   const [dueData, setDueDate] = useState<Dayjs | null>(dayjs(task.dueData));
+  const [subtaskVisible, setSubTaskVisible] = useState(false);
+  const [newSubtask, setNewSubtask] = useState("");
 
   switch (col) {
     case "not-started" : { bgColor = 'pink'; break;}
@@ -59,6 +62,12 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
     setEditing(false);
   };
 
+  const handleNewSubtask = () => {
+    console.log("handleNewSubtask called......");
+    setSubTaskVisible(false);
+    if (newSubtask !== '') {addSubtask(task.id, newSubtask); setNewSubtask("")}
+  }
+
   useEffect(()=>{
     if(dueData !== null)
       editDueData(task.id, dueData.format('DD/MM/YYYY'));
@@ -72,6 +81,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
   const handleAddSubtask = () => {
     console.log("handleAddSubtask");
     // addSubtask(tast);
+    setSubTaskVisible(true);
   }
   const handleDeleteTask = () => {
     console.log("onDeleteTask called, taskId ", task.id)
@@ -175,6 +185,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
           </IconButton>
         </Tooltip>
         {((col === 'not-started') || (col === 'in-progress')) && 
+        <>
         <Tooltip title="Add subtask" placement="bottom">
           <IconButton 
             style = {{ position:'relative', pointerEvents:'auto', zIndex:1000}}
@@ -183,7 +194,20 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
           >
             <AddIcon  fontSize="small" />
           </IconButton>
-        </Tooltip>}
+        </Tooltip>
+          <TextField
+            style = {{display:`${(subtaskVisible === false) ? 'none':'block'}`, wordWrap: 'break-word', width:'100%', borderStyle: 'none'}}
+            value={newSubtask}
+            onChange={(e) => setNewSubtask(e.target.value)}
+            onBlur={handleNewSubtask}
+            onKeyDown={(e) => e.key === 'Enter' && handleNewSubtask()}
+            autoFocus = {true}
+            placeholder="New Subtask"
+            aria-label="Task title"
+            disabled={!subtaskVisible}
+          />
+        </>
+        }
     </>
   )
 }

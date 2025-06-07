@@ -113,7 +113,7 @@ const KanbanBoard: React.FC = () => {
   const handleDeleteSubtask = (taskId:string, stId:string) => {
     console.log("handleDeleteSubtask called in KanbanBoard");
     console.log("taskId, stId", taskId, stId);
-        setColumns((cols) =>
+    setColumns((cols) =>
       cols?.map((col) => ({
         ...col,
         tasks: col.tasks?.map((t) =>(
@@ -144,6 +144,16 @@ const KanbanBoard: React.FC = () => {
     );
   };
 
+  const handleNewSubtask = (taskId:string, newSubtask:string) =>{
+    setColumns((cols) =>
+      cols?.map((col) => ({
+        ...col,
+        tasks: col.tasks?.map((t) =>(
+          t.id === taskId ? { ...t,  subTasks: [...t.subTasks, {id: `${Date.now()}`, title: newSubtask}]} : t)
+        )
+      }))
+    );
+  }
   const handleDragEnd = (event: any) => {
     let newTask : Task = {id: '', title: "", dueData:'', subTasks:[]};
     let activeColumn : any ;
@@ -204,6 +214,7 @@ const KanbanBoard: React.FC = () => {
             onEditSt={handleEditSubtask}
             onDeleteSt={handleDeleteSubtask}
             onDueDataChange={handleDueDateChange}
+            onAddSubtask = {handleNewSubtask}
           />
         ))}
       </Box>

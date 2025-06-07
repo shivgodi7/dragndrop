@@ -13,9 +13,11 @@ interface ColumnProps {
   onEditSt: (taskId: string, stId: string, newTitle: string) => void;
   onDeleteSt: (taskId: string, stId: string)=> void;  
   onDueDataChange : (taskId:string, newDate: string)=>void;
+  onAddSubtask: (taskId:string, newSubtask:string)=>void;
 }
 
-const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT, onEditSt, onDeleteSt, onDueDataChange }) => {
+const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT, 
+  onEditSt, onDeleteSt, onDueDataChange, onAddSubtask }) => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   let bgColor = '';
   switch (column.id) {
@@ -51,6 +53,11 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
   const handleDueDateChange = (taskId:string, newDate: string)=>{
     onDueDataChange(taskId, newDate);
   }
+
+  const handleNewSubtask = (taskId:string, newSubtask:string) => {
+    onAddSubtask(taskId, newSubtask);
+  }
+
   const handleDeleteTask = (taskId:string) => {
     onDeleteT(column.id, taskId);
   }
@@ -72,7 +79,7 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
         {column.tasks?.map((task) => (
           <TaskCard key={task.id} col={column.id} task={task} onEditT={handleEditTask} 
             onDeleteT={handleDeleteTask} onEditSt={handleEditSt} onDeleteSt={handleDeleteSt}
-            editDueData={handleDueDateChange}
+            editDueData={handleDueDateChange} addSubtask={handleNewSubtask}
           />
         ))}
       </Box>
