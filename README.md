@@ -4,10 +4,14 @@ Instruction to run the project:
 2. run "npm install" And then "npm start"
 3. delete localstorage data, in case slow response of UI
 
-To do:
+Done:
 1. Delete subtask
-2. Date picker for due date
+2. Date edit for due date
 3. Add new sub task for any task
+4. Delete task
+5. Edit task
+6. Edit subtask
+
    
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
