@@ -5,13 +5,14 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import Checkbox from '@mui/material/Checkbox';
 
 interface SubTaskCardProps {
+  col: string;
   subTask: SubTask;
   onEditSubTask: (subTaskId: string, title: string) => void;
   onDeleteSubTask: (stId: string)=>void;
   onStatusChange : (subtaskId:string, status: boolean)=>void;
 }
 
-const SubTaskCard: React.FC<SubTaskCardProps> = ({ subTask, onEditSubTask, onDeleteSubTask, onStatusChange}) => { 
+const SubTaskCard: React.FC<SubTaskCardProps> = ({ col, subTask, onEditSubTask, onDeleteSubTask, onStatusChange}) => { 
   const [title, setSubTask] = useState(subTask.title);
   const [editing, setEditing] = useState(false);
   const [checked, setChecked] = useState(subTask.status)
@@ -50,19 +51,23 @@ const SubTaskCard: React.FC<SubTaskCardProps> = ({ subTask, onEditSubTask, onDel
       ) : (
         <>
           <Checkbox  
+            style={{opacity: col === 'done' ? 0.5 : 1, pointerEvents: col ==='done' ? 'none' : 'auto',}}
             checked={checked}
             onChange={handleChange}
           /> 
           <Typography 
             onClick={()=>setEditing(true)} 
-            style={{textDecorationLine:`${checked ? 'line-through' : 'none'}`, wordWrap: 'break-word', width:'60%', position: 'relative', paddingLeft:'7px'}}
+            style={{opacity: col === 'done' ? 0.5 : 1, pointerEvents: col ==='done' ? 'none' : 'auto', 
+              textDecorationLine:`${checked ? 'line-through' : 'none'}`, wordWrap: 'break-word', width:'60%', 
+              position: 'relative', paddingLeft:'7px'}}
           > 
             {title} 
           </Typography>
         </>
       )}  
       
-      <IconButton style={{ position: 'relative', zIndex:1000, pointerEvents: 'auto', paddingLeft:'7px'}} onClick={handleDeleteSubTask} size="small" color="error">
+      <IconButton style={{ opacity: col === 'done' ? 0.5 : 1, pointerEvents: col ==='done' ? 'none' : 'auto', 
+        position: 'relative', zIndex:1000, paddingLeft:'7px'}} onClick={handleDeleteSubTask} size="small" color="error">
         <DeleteIcon fontSize="small" />
       </IconButton>
 

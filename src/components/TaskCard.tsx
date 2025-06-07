@@ -142,7 +142,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
         ) : (
           <Typography 
             onClick={handleEditTask} 
-            style = {{wordWrap: 'break-word', width:'100%', pointerEvents: 'auto', zIndex:1000, cursor: 'pointer'}}
+            style = {{opacity: col === 'done' ? 0.5 : 1, pointerEvents: col ==='done' ? 'none' : 'auto', 
+              wordWrap: 'break-word', width:'100%', cursor: 'pointer'}}
             onKeyDown={(e) => e.key === 'Enter' && handleEditTask}
             tabIndex={0}
             role="button"
@@ -154,6 +155,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
         {task.subTasks?.map((st)=>(
           <SubTaskCard  
             key={st.id} 
+            col={col}
             subTask={st}
             onEditSubTask={onEditSubTask}
             onDeleteSubTask={onDeleteSubTask}
