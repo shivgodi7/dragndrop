@@ -28,10 +28,11 @@ interface TaskCardProps {
   onEditSt: (taskId: string, stId: string, title: string)=>void;
   editDueData: (taskId:string, date: string)=>void;
   addSubtask: (taskId:string, title: string)=>void;
+  statusChange: (taskId: string, stId: string, status: boolean)=>void;
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEditSt, 
-  onDeleteSt, editDueData, addSubtask}) => { 
+  onDeleteSt, editDueData, addSubtask, statusChange}) => { 
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   let bgColor = '';
@@ -77,7 +78,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
   //   setDueDate(newDate);
   //   editDueData(task.id, dueData.format('YYYY/MM/DD'));
   // }
-
+  const handleStatusChange = ( subtaskId : string, checked:boolean) =>{
+    statusChange(task.id, subtaskId, checked);
+  }
   const handleAddSubtask = () => {
     console.log("handleAddSubtask");
     // addSubtask(tast);
@@ -153,7 +156,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ col, task, onEditT, onDeleteT, onEd
             key={st.id} 
             subTask={st}
             onEditSubTask={onEditSubTask}
-            onDeleteSubTask={onDeleteSubTask}/>
+            onDeleteSubTask={onDeleteSubTask}
+            onStatusChange={handleStatusChange}
+          />
         ))}
         { (col === 'not-started') ? 
         <Box

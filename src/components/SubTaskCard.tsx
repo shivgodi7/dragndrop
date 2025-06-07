@@ -8,15 +8,19 @@ interface SubTaskCardProps {
   subTask: SubTask;
   onEditSubTask: (subTaskId: string, title: string) => void;
   onDeleteSubTask: (stId: string)=>void;
+  onStatusChange : (subtaskId:string, status: boolean)=>void;
 }
 
-const SubTaskCard: React.FC<SubTaskCardProps> = ({ subTask, onEditSubTask, onDeleteSubTask}) => { 
+const SubTaskCard: React.FC<SubTaskCardProps> = ({ subTask, onEditSubTask, onDeleteSubTask, onStatusChange}) => { 
   const [title, setSubTask] = useState(subTask.title);
   const [editing, setEditing] = useState(false);
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(subTask.status)
   const handleChange = (e:any)=>{
-    console.log("e.value", e.value);
+    console.log("subtask.status", subTask.status);
+    console.log("e.value", e.target.value);
+    console.log("checked ", checked);
     setChecked(val => !val);
+    onStatusChange(subTask.id, checked);
   }
 
   const handleSaveSubtask = () => {

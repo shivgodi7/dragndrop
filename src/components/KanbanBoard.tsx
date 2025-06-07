@@ -11,9 +11,9 @@ const initialColumns: ColumnType[] = [
     title: 'Not Started',
     tasks: [
       { id: 'task-1', title: 'Task 1', dueData: '02/02/2026', 
-        subTasks:[{id: '111', title: 'st 111'}, {id: '112', title: 'st 112'}, {id: '113', title: 'st 113'}] },
+        subTasks:[{id: '111', title: 'st 111', status:false}, {id: '112', title: 'st 112', status:false}, {id: '113', title: 'st 113', status:false}] },
       { id: 'task-2', title: 'Task 2', dueData: '02/02/2026', 
-        subTasks:[{id: '11', title: 'st 11'}, {id: '12', title: 'st 12'}, {id: '13', title: 'st 13'}] }
+        subTasks:[{id: '11', title: 'st 11', status:false}, {id: '12', title: 'st 12', status:false}, {id: '13', title: 'st 13', status:false}] }
     ]
   },
   {
@@ -21,8 +21,8 @@ const initialColumns: ColumnType[] = [
     title: 'In Progress',
     tasks: [
       { id: 'task-3', title: 'Task 3', dueData: '02/02/2026', 
-        subTasks:[{id: '1111', title: 'st 1111'}, {id: '1112', title: 'st 1112'}, 
-          {id: '1113', title: 'st 1113'}] }
+        subTasks:[{id: '1111', title: 'st 1111', status:false}, {id: '1112', title: 'st 1112', status:false}, 
+          {id: '1113', title: 'st 1113', status:false}] }
     ]
   },
     {
@@ -30,8 +30,8 @@ const initialColumns: ColumnType[] = [
     title: 'Blocked',
     tasks: [
       { id: 'task-4', title: 'Task 4', dueData: '02/02/2026', 
-        subTasks:[{id: '2111', title: 'st 2111'}, {id: '2112', title: 'st 2112'}, 
-          {id: '2113', title: 'st 2113'}] }
+        subTasks:[{id: '2111', title: 'st 2111', status:false}, {id: '2112', title: 'st 2112', status:false}, 
+          {id: '2113', title: 'st 2113', status:false}] }
     ]
   },
   {
@@ -39,8 +39,8 @@ const initialColumns: ColumnType[] = [
     title: 'Done',
     tasks: [
       { id: 'task-5', title: 'Task 5', dueData: '2/2/2026', 
-        subTasks:[{id: '1114', title: 'st 1114'}, {id: '1124', title: 'st 1124'}, 
-          {id: '1134', title: 'st 1134'}]}
+        subTasks:[{id: '1114', title: 'st 1114', status:false}, {id: '1124', title: 'st 1124', status:false}, 
+          {id: '1134', title: 'st 1134', status:false}]}
     ]
   }
 ];
@@ -143,13 +143,23 @@ const KanbanBoard: React.FC = () => {
       )
     );
   };
-
+  const handleStatusChange = (taskId: string, stId: string, status: boolean) => {
+    console.log("HandleStatusChange called inside KanbanBoard, status", status);
+    setColumns((cols) =>
+      cols?.map((col) => ({
+        ...col,
+        tasks: col.tasks?.map((t) =>(
+            t.id === taskId ? { ...t,  subTasks: t.subTasks?.map((st)=>(st.id === stId)?{...st,status: !status}:st)} : t)
+        ),
+      }))
+    );
+  }
   const handleNewSubtask = (taskId:string, newSubtask:string) =>{
     setColumns((cols) =>
       cols?.map((col) => ({
         ...col,
         tasks: col.tasks?.map((t) =>(
-          t.id === taskId ? { ...t,  subTasks: [...t.subTasks, {id: `${Date.now()}`, title: newSubtask}]} : t)
+          t.id === taskId ? { ...t,  subTasks: [...t.subTasks, {id: `${Date.now()}`, title: newSubtask, status:false}]} : t)
         )
       }))
     );
@@ -215,6 +225,7 @@ const KanbanBoard: React.FC = () => {
             onDeleteSt={handleDeleteSubtask}
             onDueDataChange={handleDueDateChange}
             onAddSubtask = {handleNewSubtask}
+            onStatus={handleStatusChange}
           />
         ))}
       </Box>

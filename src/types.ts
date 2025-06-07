@@ -9,6 +9,7 @@ export interface Task {
 export interface SubTask {
   id: string;
   title: string;
+  status: boolean;
 }
 
 export interface Column {

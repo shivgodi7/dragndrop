@@ -14,10 +14,11 @@ interface ColumnProps {
   onDeleteSt: (taskId: string, stId: string)=> void;  
   onDueDataChange : (taskId:string, newDate: string)=>void;
   onAddSubtask: (taskId:string, newSubtask:string)=>void;
+  onStatus: (taskId: string, stId: string, status: boolean) => void;
 }
 
 const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT, 
-  onEditSt, onDeleteSt, onDueDataChange, onAddSubtask }) => {
+  onEditSt, onDeleteSt, onDueDataChange, onAddSubtask, onStatus }) => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   let bgColor = '';
   switch (column.id) {
@@ -37,7 +38,9 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
       id: `${Date.now()}`,
       title: newTaskTitle.trim(),
       dueData: new Date().toDateString(),
-      subTasks: [{id: '111', title: 'st 111'}, {id: '112', title: 'st 112'}, {id: '113', title: 'st 113'}]
+      subTasks: [{id: '111', title: 'st 111', status: false}, 
+        {id: '112', title: 'st 112', status: false}, 
+        {id: '113', title: 'st 113', status: false}]
     };
     onAddTask(column.id, newTask);
     setNewTaskTitle('');
@@ -53,7 +56,9 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
   const handleDueDateChange = (taskId:string, newDate: string)=>{
     onDueDataChange(taskId, newDate);
   }
-
+  const handleStatus = (taskId: string, stId: string, status: boolean) => {
+    onStatus(taskId, stId, status)
+  }
   const handleNewSubtask = (taskId:string, newSubtask:string) => {
     onAddSubtask(taskId, newSubtask);
   }
@@ -79,7 +84,7 @@ const Columns: React.FC<ColumnProps> = ({ column, onAddTask, onEditT, onDeleteT,
         {column.tasks?.map((task) => (
           <TaskCard key={task.id} col={column.id} task={task} onEditT={handleEditTask} 
             onDeleteT={handleDeleteTask} onEditSt={handleEditSt} onDeleteSt={handleDeleteSt}
-            editDueData={handleDueDateChange} addSubtask={handleNewSubtask}
+            editDueData={handleDueDateChange} addSubtask={handleNewSubtask} statusChange={handleStatus}
           />
         ))}
       </Box>
